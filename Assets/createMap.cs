@@ -20,11 +20,11 @@ public class createMap : MonoBehaviour
 
 public Cell(int x, int y)
         {
-            Vector3 scaleChange = new Vector3(10f, 2.0f, 0.0f);
-            Vector3 scaleChange2 = new Vector3(0.0f, 2.0f, 10.0f);
+            Vector3 scaleChange = new Vector3(10f, 10.0f, 0.0f);
+            Vector3 scaleChange2 = new Vector3(0.0f, 10.0f, 10.0f);
 
-            this.x = x; 
-            this.y = y; 
+            this.x = x;
+            this.y = y;
             //create all the walls of the cube
 
         leftCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
