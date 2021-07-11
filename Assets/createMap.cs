@@ -89,15 +89,27 @@ public	int randomGenerator()
 	const int LEFT = 2;
 	const int RIGHT = 3;
 
-	bool validCell(Cell cell)
+    bool validCell(Cell cell)
+    {
+        int x = cell.x;
+        int y = cell.y;
+        int size = 10;
+        bool isValid = (((y + 1 < size) && !(map[x, y + 1].visited)) ||
+                        ((y - 1 >= 0) && !(map[x, y - 1].visited)) ||
+                        ((x + 1 < size) && !(map[x + 1, y].visited)) ||
+                        ((x - 1 >= 0) && !(map[x - 1, y].visited)));
+        return isValid;
+    }
+
+	bool validCell2(Cell cell)
 	{
 		int x = cell.x;
 		int y = cell.y;
 		int size = 10;
-		bool isValid = (((y + 1 < size) && !(map[x, y + 1].visited)) ||
-						((y - 1 >= 0) && !(map[x, y - 1].visited)) ||
-						((x + 1 < size) && !(map[x + 1, y].visited)) ||
-						((x - 1 >= 0) && !(map[x - 1, y].visited)));
+		bool isValid = (((y + 1 < size) && (map[x, y + 1].upCube != null)) ||
+						((y - 1 >= 0) && (map[x, y - 1].downCube != null)) ||
+						((x + 1 < size) && (map[x + 1, y].rightCube != null)) ||
+						((x - 1 >= 0) && (map[x - 1, y].leftCube != null)));
 		return isValid;
 	}
 
@@ -143,8 +155,8 @@ public	int randomGenerator()
 							Destroy(map[selectedCell.x, selectedCell.y].downCube);
 							map[selectedCell.x, selectedCell.y].downCube = null;
 						selectedCell = (map[selectedCell.x, selectedCell.y -1]);
-						Destroy(map[selectedCell.x, selectedCell.y].upCube);
-
+                            Destroy(map[selectedCell.x, selectedCell.y].upCube);
+							map[selectedCell.x, selectedCell.y].upCube = null;
 						valid = true;
 					}
 				}
@@ -154,8 +166,10 @@ public	int randomGenerator()
 					{
 						//cout<<"left";
 						Destroy(map[selectedCell.x, selectedCell.y].leftCube);
+							map[selectedCell.x, selectedCell.y].leftCube = null;
 						selectedCell = (map[selectedCell.x -1, selectedCell.y]);
 						Destroy(map[selectedCell.x, selectedCell.y].rightCube);
+							map[selectedCell.x, selectedCell.y].rightCube = null;
 						valid = true;
 					}
 				}
@@ -165,9 +179,11 @@ public	int randomGenerator()
 					{
 						//cout<<"right";
 						Destroy(map[selectedCell.x, selectedCell.y].rightCube);
+							map[selectedCell.x, selectedCell.y].rightCube = null;
 						selectedCell = (map[selectedCell.x + 1, selectedCell.y]);
 						Destroy(map[selectedCell.x, selectedCell.y].leftCube);
 						valid = true;
+							map[selectedCell.x, selectedCell.y].leftCube = null;
 					}
 				}
 			}
@@ -221,7 +237,7 @@ public	int randomGenerator()
         Destroy(map[6, 5].leftCube);
         Destroy(map[5, 5].downCube);
 
-	//	finalmap(5, 5, 0, 0);
+		finalmap(3, 4, 0, 0);
 
 		//go through map again and remove 4 boxed walls
 
