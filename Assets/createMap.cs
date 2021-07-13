@@ -7,13 +7,13 @@ using UnityEngine;
 public class createMap : MonoBehaviour
 {
 
-		System.Random rand = new System.Random();
+	System.Random rand = new System.Random();
 
 	public int counter;
 
-public	int randomGenerator()
+	public int randomGenerator()
 	{
-        int num = rand.Next(4);
+		int num = rand.Next(4);
 		//string s = Convert.ToString(num);
 		//string s1 = Convert.ToString(counter);
 		string s2 = num + ", " + counter;
@@ -23,24 +23,16 @@ public	int randomGenerator()
 	}
 
 	public class Pos
-    {
+	{
 		public int x;
 		public int y;
 
 		public Pos(int x, int y)
-        {
-<<<<<<< HEAD
-            Vector3 scaleChange = new Vector3(10f, 10.0f, 0.0f);
-            Vector3 scaleChange2 = new Vector3(0.0f, 10.0f, 10.0f);
-
-            this.x = x;
-            this.y = y;
-            //create all the walls of the cube
-=======
+		{
 			this.x = x;
 			this.y = y;
-        }
-    }
+		}
+	}
 	public class Cell
 	{
 
@@ -52,7 +44,6 @@ public	int randomGenerator()
 		public GameObject rightCube;
 		public GameObject upCube;
 		public GameObject downCube;
->>>>>>> 09ef295... created maze
 
 
 		public Cell(int x, int y)
@@ -89,17 +80,17 @@ public	int randomGenerator()
 	const int LEFT = 2;
 	const int RIGHT = 3;
 
-    bool validCell(Cell cell)
-    {
-        int x = cell.x;
-        int y = cell.y;
-        int size = 10;
-        bool isValid = (((y + 1 < size) && !(map[x, y + 1].visited)) ||
-                        ((y - 1 >= 0) && !(map[x, y - 1].visited)) ||
-                        ((x + 1 < size) && !(map[x + 1, y].visited)) ||
-                        ((x - 1 >= 0) && !(map[x - 1, y].visited)));
-        return isValid;
-    }
+	bool validCell(Cell cell)
+	{
+		int x = cell.x;
+		int y = cell.y;
+		int size = 10;
+		bool isValid = (((y + 1 < size) && !(map[x, y + 1].visited)) ||
+						((y - 1 >= 0) && !(map[x, y - 1].visited)) ||
+						((x + 1 < size) && !(map[x + 1, y].visited)) ||
+						((x - 1 >= 0) && !(map[x - 1, y].visited)));
+		return isValid;
+	}
 
 	bool validCell2(Cell cell)
 	{
@@ -113,7 +104,7 @@ public	int randomGenerator()
 		return isValid;
 	}
 
-	void finalmap(int xStart, int yStart, int xEnd,int yEnd)
+	void finalmap(int xStart, int yStart, int xEnd, int yEnd)
 	{
 		Stack visitedCells = new Stack(); //gonna hold position not pointer
 		Cell selectedCell = (map[xStart, yStart]);
@@ -121,124 +112,136 @@ public	int randomGenerator()
 		int size = 10;
 		int counter = 0;
 		while (selectedCell.x != xEnd || selectedCell.y != yEnd)
-	{
-		//check if valid move exists
-			map[selectedCell.x, selectedCell.y].visited = true;
-		if (validCell(selectedCell))
 		{
-			counter++;
-			visitedCells.Push(new Pos(selectedCell.x, selectedCell.y));
-			bool valid = false;
-			while (!valid)
+			//check if valid move exists
+			map[selectedCell.x, selectedCell.y].visited = true;
+			if (validCell(selectedCell))
 			{
-				int direction = randomGenerator();
-				if (direction == UP)
+				counter++;
+				visitedCells.Push(new Pos(selectedCell.x, selectedCell.y));
+				bool valid = false;
+				while (!valid)
 				{
-					if ((selectedCell.y + 1 != size) && !(map[selectedCell.x, selectedCell.y+1].visited))
+					int direction = randomGenerator();
+					if (direction == UP)
 					{
-						//cout<<"up";
-						//remove wall
-						Destroy(map[selectedCell.x, selectedCell.y].upCube);
+						if ((selectedCell.y + 1 != size) && !(map[selectedCell.x, selectedCell.y + 1].visited))
+						{
+							//cout<<"up";
+							//remove wall
+							Destroy(map[selectedCell.x, selectedCell.y].upCube);
 							map[selectedCell.x, selectedCell.y].upCube = null;
-						selectedCell = (map[selectedCell.x, selectedCell.y +1]);
+							selectedCell = (map[selectedCell.x, selectedCell.y + 1]);
 							//remove wall
 							Destroy(map[selectedCell.x, selectedCell.y].downCube);
-							map[selectedCell.x, selectedCell.y].downCube = null; 
-						valid = true;
+							map[selectedCell.x, selectedCell.y].downCube = null;
+							valid = true;
+						}
 					}
-				}
-				else if (direction == DOWN)
-				{
-					if ((selectedCell.y - 1 != -1) && !(map[selectedCell.x, selectedCell.y -1].visited))
+					else if (direction == DOWN)
 					{
+						if ((selectedCell.y - 1 != -1) && !(map[selectedCell.x, selectedCell.y - 1].visited))
+						{
 							//cout<<"down";
 							Destroy(map[selectedCell.x, selectedCell.y].downCube);
 							map[selectedCell.x, selectedCell.y].downCube = null;
-						selectedCell = (map[selectedCell.x, selectedCell.y -1]);
-                            Destroy(map[selectedCell.x, selectedCell.y].upCube);
+							selectedCell = (map[selectedCell.x, selectedCell.y - 1]);
+							Destroy(map[selectedCell.x, selectedCell.y].upCube);
 							map[selectedCell.x, selectedCell.y].upCube = null;
-						valid = true;
+							valid = true;
+						}
 					}
-				}
-				else if (direction == LEFT)
-				{
-					if (selectedCell.x - 1 != -1 && !(map[selectedCell.x -1, selectedCell.y]).visited)
+					else if (direction == LEFT)
 					{
-						//cout<<"left";
-						Destroy(map[selectedCell.x, selectedCell.y].leftCube);
+						if (selectedCell.x - 1 != -1 && !(map[selectedCell.x - 1, selectedCell.y]).visited)
+						{
+							//cout<<"left";
+							Destroy(map[selectedCell.x, selectedCell.y].leftCube);
 							map[selectedCell.x, selectedCell.y].leftCube = null;
-						selectedCell = (map[selectedCell.x -1, selectedCell.y]);
-						Destroy(map[selectedCell.x, selectedCell.y].rightCube);
+							selectedCell = (map[selectedCell.x - 1, selectedCell.y]);
+							Destroy(map[selectedCell.x, selectedCell.y].rightCube);
 							map[selectedCell.x, selectedCell.y].rightCube = null;
-						valid = true;
+							valid = true;
+						}
 					}
-				}
-				else if (direction == RIGHT)
-				{
-					if (selectedCell.x + 1 != size && !(map[selectedCell.x+1, selectedCell.y].visited))
+					else if (direction == RIGHT)
 					{
-						//cout<<"right";
-						Destroy(map[selectedCell.x, selectedCell.y].rightCube);
+						if (selectedCell.x + 1 != size && !(map[selectedCell.x + 1, selectedCell.y].visited))
+						{
+							//cout<<"right";
+							Destroy(map[selectedCell.x, selectedCell.y].rightCube);
 							map[selectedCell.x, selectedCell.y].rightCube = null;
-						selectedCell = (map[selectedCell.x + 1, selectedCell.y]);
-						Destroy(map[selectedCell.x, selectedCell.y].leftCube);
-						valid = true;
+							selectedCell = (map[selectedCell.x + 1, selectedCell.y]);
+							Destroy(map[selectedCell.x, selectedCell.y].leftCube);
+							valid = true;
 							map[selectedCell.x, selectedCell.y].leftCube = null;
+						}
 					}
 				}
 			}
-		}
-		else
-		{ //
+			else
+			{ //
 				Pos selectedPos = (Pos)visitedCells.Pop();
 				selectedCell = map[selectedPos.x, selectedPos.y];
-		}
+			}
 			map[selectedCell.x, selectedCell.y].visited = true;
-		selectedCell.visited = true;
-	}
-}
-
-
-
-    void drawMap()
-    {
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-        for (int y = 0; y < 10; y++)
-        {
-            for (int x = 0; x < 10; x++)
-            {
-                map[x, y] = new Cell(x, y);
-    }
+			selectedCell.visited = true;
+		}
 	}
 
-        Destroy(map[4, 4].leftCube);
-        Destroy(map[3, 4].rightCube);
-        Destroy(map[4, 4].rightCube);
-        Destroy(map[4, 4].upCube);
-	
-        Destroy(map[4, 5].downCube);
-        Destroy(map[4, 5].rightCube);
-        Destroy(map[4, 5].upCube);
-        Destroy(map[4, 6].downCube);
 
-        Destroy(map[5, 4].leftCube);
-        Destroy(map[5, 4].upCube);
-        Destroy(map[5, 4].downCube);
-        Destroy(map[5, 3].upCube);
 
-        Destroy(map[5, 5].leftCube);
-        Destroy(map[5, 5].rightCube);
-        Destroy(map[6, 5].leftCube);
-        Destroy(map[5, 5].downCube);
+	void drawMap()
+	{
 
-		finalmap(3, 4, 0, 0);
+	}
 
+	// Start is called before the first frame update
+	void Start()
+	{
+
+		for (int y = 0; y < 10; y++)
+		{
+			for (int x = 0; x < 10; x++)
+			{
+				map[x, y] = new Cell(x, y);
+			}
+		}
+
+		Destroy(map[4, 4].leftCube);
+		Destroy(map[3, 4].rightCube);
+		Destroy(map[4, 4].rightCube);
+		Destroy(map[4, 4].upCube);
+
+		Destroy(map[4, 5].downCube);
+		Destroy(map[4, 5].rightCube);
+		Destroy(map[4, 5].upCube);
+		Destroy(map[4, 6].downCube);
+
+		Destroy(map[5, 4].leftCube);
+		Destroy(map[5, 4].upCube);
+		Destroy(map[5, 4].downCube);
+		Destroy(map[5, 3].upCube);
+
+		Destroy(map[5, 5].leftCube);
+		Destroy(map[5, 5].rightCube);
+		Destroy(map[6, 5].leftCube);
+		Destroy(map[5, 5].downCube);
+
+		finalmap(3, 4, 9, 9);
+
+
+		map[4, 4].visited = true;
+		map[3, 4].visited = true;
+
+		map[4, 5].visited = true;
+		map[4, 6].visited = true;
+
+		map[5, 4].visited = true;
+		map[5, 3].visited = true;
+
+		map[5, 5].visited = true;
+		map[6, 5].visited = true;
 		//go through map again and remove 4 boxed walls
 
 		//create center start
@@ -246,21 +249,21 @@ public	int randomGenerator()
 		{
 			for (int x = 0; x < 10; x++)
 			{
-				if(!map[x, y].visited)
-                {
-				//	Destroy(map[x, y].upCube);	
-				//	Destroy(map[x, y].downCube);
-				//	Destroy(map[x, y].leftCube);
-				//	Destroy(map[x, y].rightCube);
-                }
+				if (!map[x, y].visited)
+				{
+					Destroy(map[x, y].upCube);
+					Destroy(map[x, y].downCube);
+					Destroy(map[x, y].leftCube);
+					Destroy(map[x, y].rightCube);
+				}
 			}
 		}
+	}
 
-    }
 
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
+	// Update is called once per frame
+	void Update()
+	{
+	}
 }
+
